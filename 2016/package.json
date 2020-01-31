@@ -1,0 +1,22 @@
+{
+  "name": "advent2016",
+  "version": "5.0.0",
+  "description": "Quick and dirty solutions to advent of code 2016",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/the-louie/advent2016.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/the-louie/advent2016/issues"
+  },
+  "homepage": "https://github.com/the-louie/advent2016",
+  "dependencies": {
+    "md5": "^2.2.1"
+  }
+}
