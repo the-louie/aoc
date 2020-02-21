@@ -3,7 +3,6 @@ fs.readFile('./input.txt', 'utf8', (err, input) => {
     let poslist = ['0,0']
     let currpos = { x: 0, y: 0 }
     let count = 1
-    let dupec = 0
 
     const res = input.split('').filter((c) => c!=='').forEach((e, i) => {
         switch (e) {
@@ -12,14 +11,14 @@ fs.readFile('./input.txt', 'utf8', (err, input) => {
                 break;
             case '>':
                 currpos.x += 1
-                break;        
+                break;
             case '^':
                 currpos.y -= 1
                 break;
             case 'v':
                 currpos.y += 1
-                break;        
-    
+                break;
+
             default:
                 break;
         }
