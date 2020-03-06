@@ -26,7 +26,7 @@ const part1_2 = (input) => {
     console.log('allPlaces', allPlaces)
     console.log('allRoutes', allRoutes)
 
-    const shortest = allRoutes.reduce((acc, curr) => {
+    const distances = allRoutes.reduce((acc, curr) => {
         const legs = curr.reduce((acc, curr, i, all) => {
             return [...acc, all[i+1] !== undefined ? `${curr}-${all[i+1]}` : undefined]
         }, []).filter(f => f !== undefined)
