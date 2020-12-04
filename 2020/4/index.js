@@ -55,33 +55,32 @@ const reqFields = [
     'pid', // (Passport ID)
 ]
 
-const part1 = data => {
-    // Split all field names into an array and check each required
-    // field against it.
-    return data.reduce((acc, passport) => {
-        const fields = passport.split(' ').map(fv => fv.split(':')[0])
-        const correct = reqFields.reduce((a, c) => {
-            return (fields.indexOf(c) !== -1) && a
-        }, true)
-        return acc + (correct ? 1 : 0)
-    }, 0)
-}
+// Split all field names into an array and check each required
+// field against it.
+const part1 = data => data.reduce((count, passport) => {
+    const fields = passport.split(' ').map(fv => fv.split(':')[0])
+    const correct = reqFields.reduce((allOk, fieldName) => {
+        return (fields.indexOf(fieldName) !== -1) && allOk
+    }, true)
+    return count + (correct ? 1 : 0)
+}, 0)
+
 
 //  Generic number test, to save a few lines of code
-const valueBetween = (v, min, max) => {
-    const n = parseInt(v)
-    return (n >= min) && (n <= max)
+const valueBetween = (value, min, max) => {
+    const intVal = parseInt(value)
+    return (intVal >= min) && (intVal <= max)
 }
 
 // Validate functions for all fields that are required.
-const validate = {
-    'byr': v => valueBetween(v, 1920, 2002),
-    'iyr': v => valueBetween(v, 2010, 2020),
-    'eyr': v => valueBetween(v, 2020, 2030),
-    'hgt': v => v.indexOf('cm') !== -1 ? valueBetween(v, 150, 193) : v.indexOf('in') !== -1 ? valueBetween(v, 59, 76) : false,
-    'hcl': v => v.match(/^#[0-9a-fA-F]{6}$/),
-    'ecl': v => ['amb', 'blu', 'brn', 'gry', 'grn', 'hzl', 'oth'].indexOf(v) !== -1,
-    'pid': v => v.match(/^[0-9]{9}$/) !== null, 
+const validateFuncs = {
+    'byr': value => valueBetween(value, 1920, 2002),
+    'iyr': value => valueBetween(value, 2010, 2020),
+    'eyr': value => valueBetween(value, 2020, 2030),
+    'hgt': value => value.indexOf('cm') !== -1 ? valueBetween(value, 150, 193) : v.indexOf('in') !== -1 ? valueBetween(value, 59, 76) : false,
+    'hcl': value => value.match(/^#[0-9a-fA-F]{6}$/),
+    'ecl': value => ['amb', 'blu', 'brn', 'gry', 'grn', 'hzl', 'oth'].indexOf(value) !== -1,
+    'pid': value => value.match(/^[0-9]{9}$/) !== null, 
 }
 
 const part2 = data =>  data.reduce((count, passport) => {
@@ -94,9 +93,9 @@ const part2 = data =>  data.reduce((count, passport) => {
     // Iterate over the required fields and run a validator function
     // on each value.
     const allFieldsValid = Object.keys(validate).reduce((allOk, name) => {
-        const fn = validate[name]
+        const validateFunc = validateFuncs[name]
         const value = fields[name]
-        const valid = value && fn(value) 
+        const valid = value && validateFunc(value) 
         return valid && allOk
     }, true) 
 
