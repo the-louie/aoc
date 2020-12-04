@@ -1,4 +1,4 @@
-// split passports inte an array, individual passports are separated by empty lines.
+// split passports into an array, individual passports are separated by empty lines.
 const parseInput = (str) => str.split(/^\s*\n/gm).map(r => r.replace(/\n/g, ' ').replace(/ $/, ''))
 
 const testData = parseInput(`ecl:gry pid:860033327 eyr:2020 hcl:#fffffd
@@ -55,7 +55,7 @@ const reqFields = [
     'pid', // (Passport ID)
 ]
 
-const part1 = (data) => {
+const part1 = data => {
     // Split all field names into an array and check each required
     // field against it.
     return data.reduce((acc, passport) => {
@@ -84,27 +84,25 @@ const validate = {
     'pid': v => v.match(/^[0-9]{9}$/) !== null, 
 }
 
-const part2 = (data) => {
-    return data.reduce((count, passport) => {
-        // Create an object with all names and values.
-        const fields = passport.split(' ').reduce((fieldsObj, field) => {
-            const [name, value] = field.split(':')
-            return {...fieldsObj, [name]: value }
-        }, {})
+const part2 = data =>  data.reduce((count, passport) => {
+    // Create an object with all names and values.
+    const fields = passport.split(' ').reduce((fieldsObj, field) => {
+        const [name, value] = field.split(':')
+        return {...fieldsObj, [name]: value }
+    }, {})
 
-        // Iterate over the required fields and run a validator function
-        // on each value.
-        const allFieldsValid = Object.keys(validate).reduce((allOk, name) => {
-            const fn = validate[name]
-            const value = fields[name]
-            const valid = value && fn(value) 
-            return valid && allOk
-        }, true) 
+    // Iterate over the required fields and run a validator function
+    // on each value.
+    const allFieldsValid = Object.keys(validate).reduce((allOk, name) => {
+        const fn = validate[name]
+        const value = fields[name]
+        const valid = value && fn(value) 
+        return valid && allOk
+    }, true) 
 
-        return count + (allFieldsValid ? 1 : 0)
-    }, 0)
+    return count + (allFieldsValid ? 1 : 0)
+}, 0)
 
-}
 
 // Test 1
 const rt = part1(testData)
